@@ -15,6 +15,41 @@ namespace CollaboratorTest.Infrastructure.Data
 
         public DbSet<CollaboratorCompanyLink> CollaboratorCompanyLink { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            // Collaborator Seed Data
+            modelBuilder.Entity<Collaborator>().HasData(
+                new Collaborator { Id = 1, Name = "John Doe", Document = "1234567890", Phone = "555-1234", Email = "john.doe@example.com", Address = "123 Main St", Role = "Manager", Department = "Sales", IsEnabled = true },
+                new Collaborator { Id = 2, Name = "Jane Smith", Document = "9876543210", Phone = "555-5678", Email = "jane.smith@example.com", Address = "456 Elm St", Role = "Developer", Department = "IT", IsEnabled = true },
+                new Collaborator { Id = 3, Name = "Alice Johnson", Document = "4561237890", Phone = "555-8765", Email = "alice.johnson@example.com", Address = "789 Oak St", Role = "Designer", Department = "Marketing", IsEnabled = true },
+                new Collaborator { Id = 4, Name = "Bob Brown", Document = "7893216540", Phone = "555-4321", Email = "bob.brown@example.com", Address = "321 Pine St", Role = "Analyst", Department = "Finance", IsEnabled = true },
+                new Collaborator { Id = 5, Name = "Eve Adams", Document = "6549871230", Phone = "555-9876", Email = "eve.adams@example.com", Address = "654 Maple St", Role = "Engineer", Department = "R&D", IsEnabled = true }
+            );
+
+            // Company Seed Data
+            modelBuilder.Entity<Company>().HasData(
+                new Company { Id = 1, TradeName = "TechCorp", Document = "TC12345", Phone = "555-1111", Address = "1 Innovation Way", IsEnabled = true },
+                new Company { Id = 2, TradeName = "DesignCo", Document = "DC54321", Phone = "555-2222", Address = "2 Creative Ave", IsEnabled = true },
+                new Company { Id = 3, TradeName = "FinancePlus", Document = "FP98765", Phone = "555-3333", Address = "3 Money Blvd", IsEnabled = true },
+                new Company { Id = 4, TradeName = "MarketReach", Document = "MR67890", Phone = "555-4444", Address = "4 Branding St", IsEnabled = true },
+                new Company { Id = 5, TradeName = "BuildMaster", Document = "BM13579", Phone = "555-5555", Address = "5 Construction Rd", IsEnabled = true }
+            );
+
+            // CollaboratorCompanyLink Seed Data
+            modelBuilder.Entity<CollaboratorCompanyLink>().HasData(
+                new CollaboratorCompanyLink { Id = 1, CollaboratorId = 1, CompanyId = 1, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 2, CollaboratorId = 2, CompanyId = 2, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 3, CollaboratorId = 3, CompanyId = 3, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 4, CollaboratorId = 4, CompanyId = 4, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 5, CollaboratorId = 5, CompanyId = 5, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 6, CollaboratorId = 1, CompanyId = 2, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 7, CollaboratorId = 2, CompanyId = 3, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 8, CollaboratorId = 3, CompanyId = 4, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 9, CollaboratorId = 4, CompanyId = 5, IsEnabled = true },
+                new CollaboratorCompanyLink { Id = 10, CollaboratorId = 5, CompanyId = 1, IsEnabled = true }
+            );
+        }
     }
 }

@@ -1,7 +1,10 @@
-﻿using CollaboratorTest.Application.DTO;
-using CollaboratorTest.Application.DTO.Requests;
-using CollaboratorTest.Application.Interfaces;
+﻿using CollaboratorTest.Application.DTO.Requests;
+using CollaboratorTest.Application.Handlers.Commands;
+using CollaboratorTest.Application.Handlers.Queries;
 using Microsoft.AspNetCore.Mvc;
+using CollaboratorTest.Application.Queries.Collaborator;
+using CollaboratorTest.Application.Commands.Collaborator.CollaboratorTest.Application.Commands;
+using CollaboratorTest.Application.Commands.Collaborator;
 
 namespace CollaboratorTest.Controllers
 {
@@ -9,83 +12,101 @@ namespace CollaboratorTest.Controllers
     [ApiController]
     public class CollaboratorsController : ControllerBase
     {
-        private readonly ICollaboratorService _service;
+        private readonly GetCollaboratorsHandler _getCollaboratorsHandler;
+        private readonly GetEnabledCollaboratorsHandler _getEnabledCollaboratorsHandler;
+        private readonly GetCollaboratorByIdHandler _getCollaboratorByIdHandler;
+        private readonly AddCollaboratorHandler _addCollaboratorHandler;
+        private readonly UpdateCollaboratorHandler _updateCollaboratorHandler;
+        private readonly DeleteCollaboratorHandler _deleteCollaboratorHandler;
 
-        public CollaboratorsController(ICollaboratorService service)
+        public CollaboratorsController(
+            GetCollaboratorsHandler getCollaboratorsHandler,
+            GetEnabledCollaboratorsHandler getEnabledCollaboratorsHandler,
+            GetCollaboratorByIdHandler getCollaboratorByIdHandler,
+            AddCollaboratorHandler addCollaboratorHandler,
+            UpdateCollaboratorHandler updateCollaboratorHandler,
+            DeleteCollaboratorHandler deleteCollaboratorHandler)
         {
-            _service = service;
+            _getCollaboratorsHandler = getCollaboratorsHandler;
+            _getEnabledCollaboratorsHandler = getEnabledCollaboratorsHandler;
+            _getCollaboratorByIdHandler = getCollaboratorByIdHandler;
+            _addCollaboratorHandler = addCollaboratorHandler;
+            _updateCollaboratorHandler = updateCollaboratorHandler;
+            _deleteCollaboratorHandler = deleteCollaboratorHandler;
         }
 
         [HttpGet("GetAllCollaborators")]
         public async Task<IActionResult> GetAll()
         {
-            var collaborators = await _service.GetAllAsync();
+            var query = new GetCollaboratorsQuery();
+            var collaborators = await _getCollaboratorsHandler.HandleAsync(query);
             return Ok(collaborators);
         }
-
 
         [HttpGet("GetAllEnabled")]
         public async Task<IActionResult> GetAllEnabled()
         {
-            var collaborators = await _service.GetAllEnabledAsync();
+            var query = new GetEnabledCollaboratorsQuery();
+            var collaborators = await _getEnabledCollaboratorsHandler.HandleAsync(query);
             return Ok(collaborators);
         }
 
         [HttpGet("GetCollaboratorById/{id:long}")]
-        public async Task<IActionResult> GetById(long id)
+        public async Task<IActionResult> GetCollaboratorById(long id)
         {
-            var collaborator = await _service.GetByIdAsync(id);
-            if (collaborator == null) return NotFound();
+            var query = new GetCollaboratorByIdQuery(id);
+            var result = await _getCollaboratorByIdHandler.HandleAsync(query);
 
-            return Ok(collaborator);
+            if (result == null)
+                return NotFound($"Collaborator with ID {id} not found.");
+
+            return Ok(result);
         }
 
         [HttpPost("AddCollaborator")]
         public async Task<IActionResult> Add(CollaboratorRequestDto dto)
         {
-            var collaborator = await _service.AddAsync(dto);
-
-            var response = new CollaboratorResponseDto
+            var command = new AddCollaboratorCommand
             {
-                Id = collaborator.Id,
-                Name = collaborator.Name,
-                Email = collaborator.Email,
-                Phone = collaborator.Phone,
-                Address = collaborator.Address,
-                Document = collaborator.Document,
-                Role = collaborator.Role,
-                Department = collaborator.Department,
-                IsEnabled = collaborator.IsEnabled,
+                Name = dto.Name,
+                Address = dto.Address,
+                Email = dto.Email,
+                Department = dto.Department,
+                Role = dto.Role,
+                Phone = dto.Phone,
+                Document = dto.Document,
+                IsEnabled = dto.IsEnabled
             };
 
-            return Ok(response);
+            var collaboratorId = await _addCollaboratorHandler.HandleAsync(command);
+
+            return CreatedAtAction(nameof(GetCollaboratorById), new { id = collaboratorId }, null);
         }
 
         [HttpPut("UpdateCollaborator/{id:long}")]
         public async Task<IActionResult> Update(long id, CollaboratorRequestDto dto)
         {
-            var collaborator = await _service.UpdateAsync(id, dto);
-
-            var response = new CollaboratorResponseDto
+            var command = new UpdateCollaboratorCommand
             {
-                Id = collaborator.Id,
-                Name = collaborator.Name,
-                Email = collaborator.Email,
-                Phone = collaborator.Phone,
-                Address = collaborator.Address,
-                Document = collaborator.Document,
-                Role = collaborator.Role,
-                Department = collaborator.Department,
-                IsEnabled = collaborator.IsEnabled,
+                Id = id,
+                Name = dto.Name,
+                Address = dto.Address,
+                Email = dto.Email,
+                Department = dto.Department,
+                Role = dto.Role,
+                Phone = dto.Phone
             };
-           
-            return Ok(response);
+
+            await _updateCollaboratorHandler.HandleAsync(command);
+
+            return NoContent();
         }
 
         [HttpDelete("DeleteCollaborator/{id:long}")]
         public async Task<IActionResult> Delete(long id)
         {
-            await _service.DeleteAsync(id);
+            var command = new DeleteCollaboratorCommand { Id = id };
+            await _deleteCollaboratorHandler.HandleAsync(command);
             return NoContent();
         }
     }

@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  collaborator-test-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80" # Mapeia a porta local para a porta do container
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - mysql-db
+    networks:
+      - collaborator-network
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: CollaboratorDB
+      MYSQL_USER: collaborator_user
+      MYSQL_PASSWORD: collaborator_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - collaborator-network
+
+volumes:
+  mysql-data:
+
+networks:
+  collaborator-network:

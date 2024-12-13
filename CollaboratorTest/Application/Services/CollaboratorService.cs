@@ -91,6 +91,8 @@ namespace CollaboratorTest.Application.Services
             var collaborator = await _repository.GetByIdAsync(id);
             if (collaborator == null) throw new KeyNotFoundException();
 
+            //lançar exception customizada
+
             collaborator.Name = dto.Name;
             collaborator.Address = dto.Address;
             collaborator.Email = dto.Email;
