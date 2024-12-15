@@ -1,24 +1,26 @@
 ﻿
+using CollaboratorTest._2._Application.Interfaces.Handlers.CompanyHandlers;
 using CollaboratorTest.Application.DTO.Requests;
 using CollaboratorTest.Application.DTO.Responses;
 using CollaboratorTest.Application.Interfaces;
-using CollaboratorTest.Domain.Interfaces.CompanyInterfaces;
 using CollaboratorTest.Domain.Models.Entities;
 
 namespace CollaboratorTest.Application.Services
 {
     public class CompanyService : ICompanyService
     {
-        private readonly ICompanyRepository _repository;
+        private readonly IWriterCompanyHandler _writerCompanyHandler;
+        private readonly IReaderCompanyHandler _readerCompanyHandler;
 
-        public CompanyService(ICompanyRepository repository)
+        public CompanyService(IWriterCompanyHandler writerCompanyHandler, IReaderCompanyHandler readerCompanyHandler)
         {
-            _repository = repository;
+            _writerCompanyHandler = writerCompanyHandler;
+            _readerCompanyHandler = readerCompanyHandler;
         }
 
         public async Task<List<CompanyResponseDto>> GetAllAsync()
         {
-            var companies = await _repository.GetAllAsync();
+            var companies = await _readerCompanyHandler.HandleGetAllAsync();
             return companies.Select(c => new CompanyResponseDto
             {
                 Id = c.Id,
@@ -32,7 +34,7 @@ namespace CollaboratorTest.Application.Services
 
         public async Task<List<CompanyResponseDto>> GetAllEnabledAsync()
         {
-            var companies = await _repository.GetAllAsync();
+            var companies = await _readerCompanyHandler.HandleGetAllEnabledAsync();
             return companies.Select(c => new CompanyResponseDto
             {
                 Id = c.Id,
@@ -47,7 +49,7 @@ namespace CollaboratorTest.Application.Services
 
         public async Task<CompanyResponseDto?> GetByIdAsync(long id)
         {
-            var company = await _repository.GetByIdAsync(id);
+            var company = await _readerCompanyHandler.HandleGetByIdAsync(id);
             if (company == null) return null;
 
             return new CompanyResponseDto
@@ -60,43 +62,27 @@ namespace CollaboratorTest.Application.Services
                 Phone = company.Phone
             };
         }
-        public async Task<Company> AddAsync(CompanyRequestDto dto)
+
+        public async Task<long> AddAsync(CompanyRequestDto dto)
         {
-            var company = new Company
-            {
-                TradeName = dto.TradeName,
-                Address = dto.Address,
-                Phone = dto.Phone,
-                Document = dto.Document,
-                IsEnabled = dto.IsEnabled
-            };
+            var companyId = await _writerCompanyHandler.HandleAddAsync(dto);
 
-            await _repository.AddAsync(company);
-
-            return company;
+            return companyId;
         }
 
 
-        public async Task<Company> UpdateAsync(long id, CompanyRequestDto dto)
+        public async Task UpdateAsync(long id, CompanyRequestDto dto)
         {
-            var company = await _repository.GetByIdAsync(id);
+            var company = await _readerCompanyHandler.HandleGetByIdAsync(id);
+
             if (company == null) throw new KeyNotFoundException();
 
-            //lançar exception customizada
-
-            company.TradeName = dto.TradeName;
-            company.Address = dto.Address;
-            company.Phone = dto.Phone;
-            company.Document = dto.Document;
-
-            await _repository.UpdateAsync(company);
-
-            return company;
+            await _writerCompanyHandler.HandleUpdateAsync(id, dto);
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(long companyId)
         { 
-            await _repository.DeleteAsync(id);
+            await _writerCompanyHandler.HandleDeleteAsync(companyId);
         }
     }
 }

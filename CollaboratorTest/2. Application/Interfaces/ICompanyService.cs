@@ -11,9 +11,9 @@ namespace CollaboratorTest.Application.Interfaces
 
         Task<CompanyResponseDto?> GetByIdAsync(long id);
 
-        Task<Company> AddAsync(CompanyRequestDto dto);
+        Task<long> AddAsync(CompanyRequestDto dto);
 
-        Task<Company> UpdateAsync(long id, CompanyRequestDto dto);
+        Task UpdateAsync(long id, CompanyRequestDto dto);
 
         Task DeleteAsync(long id);
     }

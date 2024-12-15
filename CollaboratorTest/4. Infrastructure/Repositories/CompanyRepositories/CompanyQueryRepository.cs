@@ -19,6 +19,7 @@ namespace CollaboratorTest.Infrastructure.Repositories.CompanyRepositories
         {
             return await _dbContext.Company
                 .AsNoTracking()
+                .Include(c => c.CollaboratorCompanyLinks)
                 .ToListAsync();
         }
 
@@ -28,6 +29,7 @@ namespace CollaboratorTest.Infrastructure.Repositories.CompanyRepositories
             return await _dbContext.Company
                 .AsNoTracking()
                 .Where(c => c.IsEnabled)
+                .Include(c => c.CollaboratorCompanyLinks)
                 .ToListAsync();
         }
 
@@ -35,6 +37,7 @@ namespace CollaboratorTest.Infrastructure.Repositories.CompanyRepositories
         {
             return await _dbContext.Company
                 .AsNoTracking()
+                .Include(c => c.CollaboratorCompanyLinks)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
     }

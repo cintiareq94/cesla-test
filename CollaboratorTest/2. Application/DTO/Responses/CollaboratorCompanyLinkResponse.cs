@@ -1,6 +1,6 @@
-﻿namespace CollaboratorTest.Domain.Models.Entities
+﻿namespace CollaboratorTest._2._Application.DTO.Responses
 {
-    public class CollaboratorCompanyLink
+    public class CollaboratorCompanyLinkResponse
     {
         public long Id { get; set; }
         public long CollaboratorId { get; set; }
@@ -8,7 +8,5 @@
         public string Role { get; set; }
         public string Department { get; set; }
         public bool IsEnabled { get; set; }
-        public virtual Collaborator Collaborator { get; set; }
-        public virtual Company Company { get; set; }
     }
 }

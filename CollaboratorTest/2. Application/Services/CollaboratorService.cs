@@ -1,115 +1,67 @@
-﻿using CollaboratorTest.Application.DTO;
+﻿using CollaboratorTest._2._Application.DTO.Responses;
+using CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorCompanyLinkHandler;
+using CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorHandlers;
+using CollaboratorTest._2._Application.Interfaces.Handlers.CompanyHandlers;
 using CollaboratorTest.Application.DTO.Requests;
 using CollaboratorTest.Application.Interfaces;
-using CollaboratorTest.Domain.Interfaces.CollaboratorInterfaces;
-using CollaboratorTest.Domain.Models.Entities;
 
 namespace CollaboratorTest.Application.Services
 {
     public class CollaboratorService : ICollaboratorService
     {
-        private readonly ICollaboratorRepository _repository;
+        private readonly IWriterCollaboratorCompanyLinkHandler _writerCollaboratorCompanyLinkHandler;
+        private readonly IReaderCollaboratorHandler _readerCollaboratorHandler;
+        private readonly IWriterCollaboratorHandler _writerCollaboratorHandler;
+        private readonly IReaderCompanyHandler _readerCompanyHandler;
 
-        public CollaboratorService(ICollaboratorRepository repository)
+        public CollaboratorService(
+            IWriterCollaboratorCompanyLinkHandler writerCollaboratorCompanyLinkHandler,
+            IReaderCollaboratorHandler readerCollaboratorHandler,
+            IWriterCollaboratorHandler writerCollaboratorHandler,
+            IReaderCompanyHandler readerCompanyHandler)
         {
-            _repository = repository;
+            _writerCollaboratorCompanyLinkHandler = writerCollaboratorCompanyLinkHandler;
+            _readerCollaboratorHandler = readerCollaboratorHandler;
+            _writerCollaboratorHandler = writerCollaboratorHandler;
+            _readerCompanyHandler = readerCompanyHandler;
         }
 
-        public async Task<List<CollaboratorResponseDto>> GetAllAsync()
+        public async Task<List<CollaboratorCompanyLinkResponseDto>> GetAll()
         {
-            var collaborators = await _repository.GetAllAsync();
-            return collaborators.Select(c => new CollaboratorResponseDto {
-              Id = c.Id,
-              Name = c.Name,
-              Address = c.Address,
-              Email = c.Email,
-              Department = c.Department,
-              Role = c.Role,
-              Phone = c.Phone,
-              Document = c.Document,
-              IsEnabled = c.IsEnabled
-            }).OrderBy(c => c.Name).ToList();
-        }
-        public async Task<List<CollaboratorResponseDto>> GetAllEnabledAsync()
-        {
-            var collaborators = await _repository.GetAllAsync();
-            return collaborators.Select(c => new CollaboratorResponseDto
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Address = c.Address,
-                Email = c.Email,
-                Department = c.Department,
-                Role = c.Role,
-                Phone = c.Phone,
-                Document = c.Document,
-                IsEnabled = c.IsEnabled
-            }).OrderBy(c => c.Name).ToList();
+            return await _readerCollaboratorHandler.HandleGetAllAsync();
         }
 
-        public async Task<CollaboratorResponseDto?> GetByIdAsync(long id)
+        public async Task<List<CollaboratorCompanyLinkResponseDto>> GetAllEnabled()
         {
-            var collaborator = await _repository.GetByIdAsync(id);
-            if (collaborator == null) return null;
-
-            return new CollaboratorResponseDto
-            {
-                Id = collaborator.Id,
-                Name = collaborator.Name,
-                Address = collaborator.Address,
-                Email = collaborator.Email,
-                Department = collaborator.Department,
-                Role = collaborator.Role,
-                Phone = collaborator.Phone,
-                Document = collaborator.Document,
-                IsEnabled = collaborator.IsEnabled
-            };
+            return await _readerCollaboratorHandler.HandleGetAllEnabledAsync();
         }
 
-
-        public async Task<Collaborator> AddAsync(CollaboratorRequestDto dto)
+        public async Task<List<CollaboratorCompanyLinkResponseDto>?> GetCollaboratorById(long id)
         {
-            var collaborator = new Collaborator
-            {
-                Name = dto.Name,
-                Address = dto.Address,
-                Email = dto.Email,
-                Department = dto.Department,
-                Role = dto.Role,
-                Phone = dto.Phone,
-                Document = dto.Document,
-                IsEnabled = dto.IsEnabled
-            };
-
-            await _repository.AddAsync(collaborator);
-
-            return collaborator;
+            return await _readerCollaboratorHandler.HandleByIdAsync(id);
         }
 
-        public async Task<Collaborator> UpdateAsync(long id, CollaboratorRequestDto dto)
+        public async Task UpdateCollaborator(long collaboratorId, CollaboratorCompanyLinkRequestDto dto)
         {
-            var collaborator = await _repository.GetByIdAsync(id);
-            if (collaborator == null) throw new KeyNotFoundException();
+            await _readerCompanyHandler.HandleGetByIdAsync(dto.CompanyId);
 
-            //lançar exception customizada
+            await _writerCollaboratorHandler.HandleUpdateAsync(dto, collaboratorId);
 
-            collaborator.Name = dto.Name;
-            collaborator.Address = dto.Address;
-            collaborator.Email = dto.Email;
-            collaborator.Department = dto.Department;
-            collaborator.Role = dto.Role;
-            collaborator.Phone = dto.Phone;
-
-            await _repository.UpdateAsync(collaborator);
-
-            return collaborator;
+            await _writerCollaboratorCompanyLinkHandler.HandleUpdateAsync(dto, collaboratorId);
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task<long> AddCollaborator(CollaboratorCompanyLinkRequestDto dto)
         {
+            var collaboratorId = await _writerCollaboratorHandler.HandleAddAsync(dto);
 
-            await _repository.DeleteAsync(id);
+            await _writerCollaboratorCompanyLinkHandler.HandleAddAsync(dto, collaboratorId);
+
+            return collaboratorId;
         }
 
+        public async Task DeleteCollaborator(long collaboratorId)
+        {
+            await _writerCollaboratorHandler.HandleDeleteAsync(collaboratorId);
+        }
     }
 }

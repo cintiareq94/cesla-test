@@ -1,6 +1,5 @@
 ﻿
 using CollaboratorTest.Application.DTO.Requests;
-using CollaboratorTest.Application.DTO.Responses;
 using CollaboratorTest.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +20,8 @@ namespace CollaboratorTest.Controllers
         public async Task<IActionResult> GetAll()
         {
             var companies = await _service.GetAllAsync();
+
+            Console.WriteLine(companies.Select(x => x.Id).First().ToString());
 
             return Ok(companies);
         }
@@ -47,19 +48,9 @@ namespace CollaboratorTest.Controllers
         [HttpPost("AddCompany")]
         public async Task<IActionResult> Add(CompanyRequestDto dto)
         {
-            var company = await _service.AddAsync(dto);
+            var companyId = await _service.AddAsync(dto);
 
-            var response = new CompanyResponseDto
-            {
-                Id = company.Id,
-                TradeName = company.TradeName,
-                Phone = company.Phone,
-                Address = company.Address,
-                Document = company.Document,
-                IsEnabled = company.IsEnabled,
-            };
-
-            return Ok(response);
+            return Ok(companyId);
         }
 
 
@@ -67,7 +58,7 @@ namespace CollaboratorTest.Controllers
         public async Task<IActionResult> Update(long id, CompanyRequestDto dto)
         {
             await _service.UpdateAsync(id, dto);
-            return NoContent();
+            return Ok();
         }
 
 
@@ -75,7 +66,7 @@ namespace CollaboratorTest.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             await _service.DeleteAsync(id);
-            return NoContent();
+            return Ok();
         }
     }
 }

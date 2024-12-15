@@ -8,6 +8,6 @@
         public  string Phone {  get; set; }
         public  string Address { get; set; }
         public  bool IsEnabled { get; set; }
-
+        public virtual ICollection<CollaboratorCompanyLink> CollaboratorCompanyLinks { get; set; }
     }
 }

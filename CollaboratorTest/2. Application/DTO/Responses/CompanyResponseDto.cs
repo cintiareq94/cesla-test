@@ -4,7 +4,6 @@ namespace CollaboratorTest.Application.DTO.Responses
 {
     public class CompanyResponseDto
     {
-
         public long Id { get; set; }
         public string TradeName { get; set; }
         public string Document { get; set; }

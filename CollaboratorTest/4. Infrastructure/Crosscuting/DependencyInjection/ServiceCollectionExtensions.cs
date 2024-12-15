@@ -1,6 +1,11 @@
-﻿using CollaboratorTest.Application.Handlers.Commands;
-using CollaboratorTest.Application.Handlers.Commands.CollaboratorCommands;
-using CollaboratorTest.Application.Handlers.Queries;
+﻿using CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandlers;
+using CollaboratorTest._2._Application.Handlers.CollaboratorHandlers;
+using CollaboratorTest._2._Application.Handlers.CompanyHandlers;
+using CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorCompanyLinkHandler;
+using CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorHandlers;
+using CollaboratorTest._2._Application.Interfaces.Handlers.CompanyHandlers;
+using CollaboratorTest._3._Domain.Interfaces.CollaboratorCompanyLinkInterfaces;
+using CollaboratorTest._4._Infrastructure.Repositories.CollaboratorCompanyLinkRepositories;
 using CollaboratorTest.Application.Interfaces;
 using CollaboratorTest.Application.Services;
 using CollaboratorTest.Domain.Interfaces.CollaboratorInterfaces;
@@ -15,26 +20,28 @@ namespace CollaboratorTest.Infrastructure.Crosscuting.DependencyInjection
         public static IServiceCollection AddCollaboratorDependencies(this IServiceCollection services)
         {
             // Serviços
-            services.AddScoped<ICollaboratorService, CollaboratorService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ICollaboratorService, CollaboratorService>();
 
             // Repositórios
-            services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
-            services.AddScoped<ICollaboratorCompanyLinkRepository, CollaboratorCompanyLinkRepository>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddTransient<ICollaboratorCommandRepository, CollaboratorCommandRepository>();
-            services.AddTransient<ICollaboratorQueryRepository, CollaboratorQueryRepository>();
-            services.AddTransient<ICompanyCommandRepository, CompanyCommandRepository>();
-            services.AddTransient<ICompanyQueryRepository, CompanyQueryRepository>();
+            services.AddScoped<ICompanyCommandRepository, CompanyCommandRepository>();
+            services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
 
+            services.AddScoped<ICollaboratorCommandRepository, CollaboratorCommandRepository>();
+            services.AddScoped<ICollaboratorQueryRepository, CollaboratorQueryRepository>();
+
+            services.AddScoped<ICollaboratorCompanyLinkCommandRepository, CollaboratorCompanyLinkCommandRepository>();
+            services.AddScoped<ICollaboratorCompanyLinkQueryRepository, CollaboratorCompanyLinkQueryRepository>();
+            
             // Handlers
-            services.AddTransient<AddCollaboratorHandler>();
-            services.AddTransient<AddCollaboratorCompanyLinkHandler>();
-            services.AddTransient<UpdateCollaboratorHandler>();
-            services.AddTransient<DeleteCompanyHandler>();
-            services.AddTransient<GetCollaboratorsHandler>();
-            services.AddTransient<GetCollaboratorByIdHandler>();
-            services.AddTransient<GetEnabledCollaboratorsHandler>();
+            services.AddTransient<IWriterCompanyHandler, WriterCompanyHandler>();
+            services.AddTransient<IReaderCompanyHandler, ReaderCompanyHandler>();
+
+            services.AddTransient<IWriterCollaboratorHandler, WriterCollaboratorHandler>();
+            services.AddTransient<IReaderCollaboratorHandler, ReaderCollaboratorHandler>();
+            
+            services.AddTransient<IWriterCollaboratorCompanyLinkHandler, WriterCollaboratorCompanyLinkHandler>();
+            services.AddTransient<IReaderCollaboratorCompanyLinkHandler, ReaderCollaboratorCompanyLinkHandler>();
 
             return services;
 

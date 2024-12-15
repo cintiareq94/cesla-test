@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace CollaboratorTest.Domain.Models.Entities
+﻿namespace CollaboratorTest.Domain.Models.Entities
 {
     public class Collaborator
     {
@@ -10,9 +8,7 @@ namespace CollaboratorTest.Domain.Models.Entities
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Document {  get; set; }
-        public string Role { get; set; }
-        public string Department { get; set; }
         public bool IsEnabled { get; set; }
-
+        public virtual ICollection<CollaboratorCompanyLink> CollaboratorCompanyLinks { get; set; }
     }
 }

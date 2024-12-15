@@ -1,20 +1,15 @@
-﻿using CollaboratorTest.Application.DTO;
+﻿using CollaboratorTest._2._Application.DTO.Responses;
 using CollaboratorTest.Application.DTO.Requests;
-using CollaboratorTest.Domain.Models.Entities;
 
 namespace CollaboratorTest.Application.Interfaces
 {
     public interface ICollaboratorService
     {
-        Task<List<CollaboratorResponseDto>> GetAllAsync();
-        Task<List<CollaboratorResponseDto>> GetAllEnabledAsync();
-
-        Task<CollaboratorResponseDto?> GetByIdAsync(long id);
-
-        Task<Collaborator> AddAsync(CollaboratorRequestDto dto);
-
-        Task<Collaborator> UpdateAsync(long id, CollaboratorRequestDto dto);
-
-        Task DeleteAsync(long id);
+        Task<List<CollaboratorCompanyLinkResponseDto>> GetAll();
+        Task<List<CollaboratorCompanyLinkResponseDto>> GetAllEnabled();
+        Task<List<CollaboratorCompanyLinkResponseDto>?> GetCollaboratorById(long id);
+        Task<long> AddCollaborator(CollaboratorCompanyLinkRequestDto dto);
+        Task UpdateCollaborator(long collaboratorId, CollaboratorCompanyLinkRequestDto dto);
+        Task DeleteCollaborator(long collaboratorId);
     }
 }

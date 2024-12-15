@@ -28,6 +28,7 @@ namespace CollaboratorTest.Infrastructure.Repositories.CollaboratorRepositories
         public async Task DeleteAsync(long id)
         {
             var collaborator = await _dbContext.Collaborator.FindAsync(id);
+
             if (collaborator != null)
             {
                 collaborator.IsEnabled = false;
