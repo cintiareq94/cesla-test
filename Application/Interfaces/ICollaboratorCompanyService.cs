@@ -9,7 +9,7 @@ namespace CollaboratorTest._2._Application.Interfaces
         Task<List<CollaboratorCompanyLinkResponse>> GetAllEnabled();
 
         Task<CollaboratorCompanyLinkResponse> GetLinkById(long id);
-        
+
         Task DeleteCollaboratorCompanyLink(long id);
     }
 }

@@ -64,7 +64,6 @@ namespace CollaboratorTest.Infrastructure.Data
             SeedData(modelBuilder);
         }
 
-
         private void SeedData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Collaborator>().HasData(

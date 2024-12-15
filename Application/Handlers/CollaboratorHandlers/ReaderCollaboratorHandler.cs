@@ -27,7 +27,7 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorHandlers
         {
             var collaborator = await _queryRepository.GetByDocumentAsync(document);
 
-            if (collaborator == null || !collaborator.CollaboratorCompanyLinks.Any()) 
+            if (collaborator == null || !collaborator.CollaboratorCompanyLinks.Any())
                 return new CollaboratorCompanyLinkResponseDto();
 
             return CollaboratorCompanyLinkHelper.MapCollaboratorToResponseDtos(collaborator).First();

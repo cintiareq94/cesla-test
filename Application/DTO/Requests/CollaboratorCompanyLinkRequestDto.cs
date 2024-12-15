@@ -7,6 +7,7 @@ namespace CollaboratorTest.Application.DTO.Requests
         public long CompanyId { get; set; }
         public string CollaboratorRole { get; set; }
         public string CollaboratorDepartment { get; set; }
+
         [JsonIgnore]
         public bool IsEnabled { get; set; } = true;
 

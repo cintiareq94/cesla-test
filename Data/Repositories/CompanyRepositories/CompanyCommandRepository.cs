@@ -37,4 +37,3 @@ namespace CollaboratorTest.Infrastructure.Repositories.CompanyRepositories
         }
     }
 }
-

@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CollaboratorTest.Application.DTO
+﻿namespace CollaboratorTest.Application.DTO
 {
     public class CollaboratorResponseDto
     {

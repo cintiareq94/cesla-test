@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CollaboratorTest.Application.DTO.Responses
+﻿namespace CollaboratorTest.Application.DTO.Responses
 {
     public class CompanyResponseDto
     {

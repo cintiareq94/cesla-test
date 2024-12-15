@@ -9,6 +9,7 @@ namespace CollaboratorTest.Application.DTO.Requests
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Document { get; set; }
+
         [JsonIgnore]
         public DateTime CreationDate { get; set; }
     }

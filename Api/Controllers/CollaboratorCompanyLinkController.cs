@@ -8,9 +8,8 @@ namespace Api.Controllers
     public class CollaboratorCompanyLinkController : ControllerBase
     {
         private readonly ICollaboratorCompanyService _collaboratorCompanyService;
-  
 
-    public CollaboratorCompanyLinkController(ICollaboratorCompanyService collaboratorCompanyService)
+        public CollaboratorCompanyLinkController(ICollaboratorCompanyService collaboratorCompanyService)
         {
             _collaboratorCompanyService = collaboratorCompanyService;
         }
@@ -19,9 +18,8 @@ namespace Api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var collaboratorCompanyLinks = await _collaboratorCompanyService.GetAll();
-                return Ok(collaboratorCompanyLinks);
+            return Ok(collaboratorCompanyLinks);
         }
-
 
         [HttpGet("GetAllCollaboratorCompanyLinksEnabled")]
         public async Task<IActionResult> GetAllEnabled()
@@ -29,7 +27,6 @@ namespace Api.Controllers
             var collaboratorCompanyLinks = await _collaboratorCompanyService.GetAllEnabled();
             return Ok(collaboratorCompanyLinks);
         }
-
 
         [HttpGet("GetLinkById/{id:long}")]
         public async Task<IActionResult> GetLinkById(long id)

@@ -71,4 +71,3 @@ namespace CollaboratorTest.Infrastructure.Crosscuting.DependencyInjection
         }
     }
 }
-

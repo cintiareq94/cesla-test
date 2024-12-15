@@ -52,7 +52,6 @@ namespace CollaboratorTest.Application.Services
             }).OrderBy(c => c.TradeName).ToList();
         }
 
-
         public async Task<CompanyResponseDto?> GetByIdAsync(long id)
         {
             var company = await _readerCompanyHandler.HandleGetByIdAsync(id);

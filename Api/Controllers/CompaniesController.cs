@@ -25,14 +25,12 @@ namespace Api.Controllers
             return Ok(companies);
         }
 
-
         [HttpGet("GetAllEnabled")]
         public async Task<IActionResult> GetAllEnabled()
         {
             var companies = await _service.GetAllEnabledAsync();
             return Ok(companies);
         }
-
 
         [HttpGet("GetCompanyById/{id:long}")]
         public async Task<IActionResult> GetById(long id)
@@ -43,7 +41,6 @@ namespace Api.Controllers
             return Ok(company);
         }
 
-
         [HttpPost("AddCompany")]
         public async Task<IActionResult> Add(CompanyRequestDto dto)
         {
@@ -52,14 +49,12 @@ namespace Api.Controllers
             return Ok(companyId);
         }
 
-
         [HttpPut("UpdateCompany/{id:long}")]
         public async Task<IActionResult> Update(long id, CompanyRequestDto dto)
         {
             await _service.UpdateAsync(id, dto);
             return Ok();
         }
-
 
         [HttpDelete("DeleteCompany/{id:long}")]
         public async Task<IActionResult> Delete(long id)

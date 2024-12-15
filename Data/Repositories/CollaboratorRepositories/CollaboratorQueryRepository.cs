@@ -14,7 +14,6 @@ namespace CollaboratorTest.Infrastructure.Repositories.CollaboratorRepositories
             _dbContext = dbContext;
         }
 
-
         public async Task<List<Collaborator>> GetAllAsync()
         {
             return await _dbContext.Collaborator
@@ -23,7 +22,6 @@ namespace CollaboratorTest.Infrastructure.Repositories.CollaboratorRepositories
                     .ThenInclude(c => c.Company)
                 .ToListAsync();
         }
-
 
         public async Task<List<Collaborator>> GetAllEnabledAsync()
         {

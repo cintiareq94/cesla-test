@@ -44,7 +44,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Add(CollaboratorCompanyLinkRequestDto dto)
         {
             var collaboratorId = await _collaboratorService.AddCollaborator(dto);
-            
+
             return CreatedAtAction(nameof(GetCollaboratorById), new { id = collaboratorId }, null);
         }
 

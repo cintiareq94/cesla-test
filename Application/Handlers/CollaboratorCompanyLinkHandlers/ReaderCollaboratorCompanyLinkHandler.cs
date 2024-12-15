@@ -134,7 +134,6 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
             return response;
         }
 
-
         public async Task<CollaboratorCompanyLinkResponse?> HandleGetByCollaboratorAndCompanyIdAsync(long collaboratorId, long companyId)
         {
             var link = await _queryRepository.GetByCollaboratorAndCompanyIdAsync(collaboratorId, companyId);
