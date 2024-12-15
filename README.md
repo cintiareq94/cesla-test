@@ -65,7 +65,7 @@ Este projeto foi desenvolvido com base nos princípios da Clean Architecture par
 
 No terminal, na pasta onde está o `docker-compose` (Api) e executar:
 
-    docker-compose --build
+    docker-compose up --build
 
 Acessar no navegador de sua preferência:
 
