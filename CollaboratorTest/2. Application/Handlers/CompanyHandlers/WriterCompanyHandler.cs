@@ -39,11 +39,10 @@ namespace CollaboratorTest._2._Application.Handlers.CompanyHandlers
             var company = await _companyQueryRepository.GetByIdAsync(companyId);
 
             if (company == null)
-                throw new KeyNotFoundException($"Company with ID {companyId} not found.");
+                throw new Exception($"Company with ID {companyId} not found.");
 
             company.TradeName = dto.TradeName;
             company.Address = dto.Address;
-            company.Document = dto.Document;
             company.Phone = dto.Phone;
 
             await _companyCommandRepository.UpdateAsync(company);
@@ -54,7 +53,7 @@ namespace CollaboratorTest._2._Application.Handlers.CompanyHandlers
             var company = await _companyQueryRepository.GetByIdAsync(companyId);
 
             if (company == null)
-                throw new KeyNotFoundException($"Company with ID {companyId} not found.");
+                throw new Exception($"Company with ID {companyId} not found.");
 
             await _companyCommandRepository.DeleteAsync(companyId);
         }

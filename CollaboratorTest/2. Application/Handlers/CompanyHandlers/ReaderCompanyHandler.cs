@@ -80,5 +80,24 @@ namespace CollaboratorTest._2._Application.Handlers.CompanyHandlers
 
             return response;
         }
+
+        public async Task<CompanyResponseDto> HandleGetByDocumentAsync(string document)
+        {
+            var company = await _queryRepository.GetByDocumentAsync(document);
+
+            if (company == null) return new CompanyResponseDto();
+
+            var response = new CompanyResponseDto
+            {
+                Id = company.Id,
+                TradeName = company.TradeName,
+                Document = company.Document,
+                Phone = company.Phone,
+                Address = company.Address,
+                IsEnabled = company.IsEnabled
+            };
+
+            return response;
+        }
     }
 }

@@ -5,10 +5,14 @@ namespace CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorCompa
 {
     public interface IReaderCollaboratorCompanyLinkHandler
     {
-        Task<List<CollaboratorCompanyLinkResponse>> HandleGetAll(CollaboratorCompanyLinkRequestDto dto, long collaboratorId);
+        Task<List<CollaboratorCompanyLinkResponse>> HandleGetAll();
 
-        Task<List<CollaboratorCompanyLinkResponse>> HandleGetAllEnabled(CollaboratorCompanyLinkRequestDto dto, long collaboratorId);
+        Task<List<CollaboratorCompanyLinkResponse>> HandleGetAllEnabled();
 
+        Task<CollaboratorCompanyLinkResponse> HandleGetLinkById(long id);
 
+        Task<List<CollaboratorCompanyLinkResponse>> HandleGetLinkByCollaboratorId(long id);
+
+        Task<List<CollaboratorCompanyLinkResponse>> HandleGetLinkByCompanyId(long id);
     }
 }

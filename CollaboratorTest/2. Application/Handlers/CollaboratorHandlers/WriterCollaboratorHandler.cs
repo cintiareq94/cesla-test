@@ -27,7 +27,7 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorHandlers
                 Email = dto.Collaborator.Email,
                 Phone = dto.Collaborator.Phone,
                 Document = dto.Collaborator.Document,
-                IsEnabled = dto.Collaborator.IsEnabled
+                CreationDate = DateTime.Now.ToUniversalTime(),
             };
 
             await _commandRepository.AddAsync(collaborator);
@@ -40,28 +40,14 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorHandlers
             var collaborator = await _queryRepository.GetByIdAsync(collaboratorId);
 
             if (collaborator == null)
-                throw new KeyNotFoundException($"Collaborator with ID {collaboratorId} not found.");
-
-            if (collaborator.IsEnabled == false)
-                throw new KeyNotFoundException($"Collaborator with ID {collaboratorId} is disabled.");
+                throw new Exception($"Collaborator with ID {collaboratorId} not found.");
 
             collaborator.Name = dto.Collaborator.Name;
             collaborator.Address = dto.Collaborator.Address;
             collaborator.Email = dto.Collaborator.Email;
             collaborator.Phone = dto.Collaborator.Phone;
-            collaborator.IsEnabled = dto.Collaborator.IsEnabled;
 
             await _commandRepository.UpdateAsync(collaborator);
-        }
-
-        public async Task HandleDeleteAsync(long id)
-        {
-            var collaborator = await _queryRepository.GetByIdAsync(id);
-
-            if (collaborator == null)
-                throw new KeyNotFoundException($"Collaborator with ID {id} not found.");
-
-            await _commandRepository.DeleteAsync(id);
         }
     }
 }

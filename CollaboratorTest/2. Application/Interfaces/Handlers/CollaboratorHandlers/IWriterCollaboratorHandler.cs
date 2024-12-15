@@ -6,6 +6,5 @@ namespace CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorHandl
     {
         Task<long> HandleAddAsync(CollaboratorCompanyLinkRequestDto dto);
         Task HandleUpdateAsync(CollaboratorCompanyLinkRequestDto dto, long collaboratorId);
-        Task HandleDeleteAsync(long id);
     }
 }

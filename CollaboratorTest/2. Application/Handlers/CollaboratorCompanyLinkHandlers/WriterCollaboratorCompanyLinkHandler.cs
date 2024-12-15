@@ -40,12 +40,12 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
             var collaborator = await _readerCollaboratorHandler.HandleByIdAsync(collaboratorCompanyLink.CollaboratorId);
 
             if (collaborator == null)
-                throw new KeyNotFoundException($"Collaborator with ID {collaboratorCompanyLink.CollaboratorId} not found.");
+                throw new Exception($"Collaborator with ID {collaboratorCompanyLink.CollaboratorId} not found.");
 
             var company = await _readerCompanyHandler.HandleGetByIdAsync(collaboratorCompanyLink.CompanyId);
 
             if (company == null)
-                throw new KeyNotFoundException($"Company with ID {collaboratorCompanyLink.CompanyId} not found.");
+                throw new Exception($"Company with ID {collaboratorCompanyLink.CompanyId} not found.");
 
             await _commandRepository.AddAsync(collaboratorCompanyLink);
         }
@@ -55,7 +55,7 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
             var collaboratorCompanyLink = await _queryRepository.GetByCollaboratorAndCompanyIdAsync(collaboratorId, dto.CompanyId);
 
             if (collaboratorCompanyLink == null)
-                throw new KeyNotFoundException($"CollaboratorCompanyLink with CollaboratorID {collaboratorId} and {dto.CompanyId} not found.");
+                throw new Exception($"CollaboratorCompanyLink with CollaboratorID {collaboratorId} and {dto.CompanyId} not found.");
 
             collaboratorCompanyLink.Role = dto.CollaboratorRole;
             collaboratorCompanyLink.Department = dto.CollaboratorDepartment;
@@ -69,7 +69,7 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
             var collaborator = await _queryRepository.GetByIdAsync(id);
 
             if (collaborator == null)
-                throw new KeyNotFoundException($"Collaborator with ID {id} not found.");
+                throw new Exception($"Collaborator with ID {id} not found.");
 
             await _commandRepository.DeleteAsync(id);
         }

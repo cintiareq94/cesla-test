@@ -6,6 +6,7 @@ namespace CollaboratorTest._2._Application.Interfaces.Handlers.CompanyHandlers
     {
         Task<List<CompanyResponseDto>> HandleGetAllAsync();
         Task<CompanyResponseDto> HandleGetByIdAsync(long id);
+        Task<CompanyResponseDto> HandleGetByDocumentAsync(string document);
         Task<List<CompanyResponseDto>> HandleGetAllEnabledAsync();
     }
 }

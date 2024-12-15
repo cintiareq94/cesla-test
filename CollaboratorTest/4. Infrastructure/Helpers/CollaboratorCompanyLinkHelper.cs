@@ -36,7 +36,7 @@ namespace CollaboratorTest._4._Infrastructure.Helpers
                             Document = link.Collaborator.Document,
                             Role = link.Role,
                             Department = link.Department,
-                            IsEnabled = link.Collaborator.IsEnabled
+                            CreationDate = link.Collaborator.CreationDate
                         }
                     });
                 }
@@ -73,7 +73,7 @@ namespace CollaboratorTest._4._Infrastructure.Helpers
                         Document = link.Collaborator.Document,
                         Role = link.Role,
                         Department = link.Department,
-                        IsEnabled = link.Collaborator.IsEnabled
+                        CreationDate = link.Collaborator.CreationDate
                     }
                 };
 

@@ -6,6 +6,5 @@ namespace CollaboratorTest.Domain.Interfaces.CollaboratorInterfaces
     {
         Task AddAsync(Collaborator collaborator);
         Task UpdateAsync(Collaborator collaborator);
-        Task DeleteAsync(long id);
     }
 }

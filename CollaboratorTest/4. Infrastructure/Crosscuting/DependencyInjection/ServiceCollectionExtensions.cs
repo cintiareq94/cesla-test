@@ -1,9 +1,11 @@
 ﻿using CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandlers;
 using CollaboratorTest._2._Application.Handlers.CollaboratorHandlers;
 using CollaboratorTest._2._Application.Handlers.CompanyHandlers;
+using CollaboratorTest._2._Application.Interfaces;
 using CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorCompanyLinkHandler;
 using CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorHandlers;
 using CollaboratorTest._2._Application.Interfaces.Handlers.CompanyHandlers;
+using CollaboratorTest._2._Application.Services;
 using CollaboratorTest._3._Domain.Interfaces.CollaboratorCompanyLinkInterfaces;
 using CollaboratorTest._4._Infrastructure.Repositories.CollaboratorCompanyLinkRepositories;
 using CollaboratorTest.Application.Interfaces;
@@ -19,11 +21,12 @@ namespace CollaboratorTest.Infrastructure.Crosscuting.DependencyInjection
     {
         public static IServiceCollection AddCollaboratorDependencies(this IServiceCollection services)
         {
-            // Serviços
+            // Services
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ICollaboratorService, CollaboratorService>();
+            services.AddScoped<ICollaboratorCompanyService, CollaboratorCompanyService>();
 
-            // Repositórios
+            // Repositories
             services.AddScoped<ICompanyCommandRepository, CompanyCommandRepository>();
             services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
 

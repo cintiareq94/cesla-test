@@ -18,9 +18,19 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorHandlers
         {
             var collaborator = await _queryRepository.GetByIdAsync(id);
 
-            if (collaborator == null) return new List<CollaboratorCompanyLinkResponseDto>();
+            if (collaborator == null) throw new Exception($"Collaborator with {id} not found");
 
             return CollaboratorCompanyLinkHelper.MapCollaboratorToResponseDtos(collaborator);
+        }
+
+        public async Task<CollaboratorCompanyLinkResponseDto> HandleByDocumentAsync(string document)
+        {
+            var collaborator = await _queryRepository.GetByDocumentAsync(document);
+
+            if (collaborator == null || !collaborator.CollaboratorCompanyLinks.Any()) 
+                return new CollaboratorCompanyLinkResponseDto();
+
+            return CollaboratorCompanyLinkHelper.MapCollaboratorToResponseDtos(collaborator).First();
         }
 
         public async Task<List<CollaboratorCompanyLinkResponseDto>> HandleGetAllAsync()

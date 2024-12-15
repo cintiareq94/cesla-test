@@ -40,5 +40,12 @@ namespace CollaboratorTest.Infrastructure.Repositories.CompanyRepositories
                 .Include(c => c.CollaboratorCompanyLinks)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public async Task<Company?> GetByDocumentAsync(string document)
+        {
+            return await _dbContext.Company
+                .Where(c => c.Document == document && c.IsEnabled == true)
+                .FirstOrDefaultAsync();
+        }
     }
 }

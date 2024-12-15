@@ -55,12 +55,5 @@ namespace CollaboratorTest.Controllers
 
             return Ok();
         }
-
-        [HttpDelete("DeleteCollaborator/{collaboratorId:long}")]
-        public async Task<IActionResult> Delete(long collaboratorId)
-        {
-            await _collaboratorService.DeleteCollaborator(collaboratorId);
-            return Ok();
-        }
     }
 }

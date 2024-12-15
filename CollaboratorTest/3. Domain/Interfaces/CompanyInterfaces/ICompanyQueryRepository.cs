@@ -7,6 +7,7 @@ namespace CollaboratorTest.Domain.Interfaces.CompanyInterfaces
         Task<List<Company>> GetAllAsync();
         Task<List<Company>> GetAllEnabledAsync();
         Task<Company?> GetByIdAsync(long id);
+        Task<Company?> GetByDocumentAsync(string document);
     }
 }
 

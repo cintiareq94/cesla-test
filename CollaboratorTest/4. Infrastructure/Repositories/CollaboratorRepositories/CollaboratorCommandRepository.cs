@@ -24,18 +24,6 @@ namespace CollaboratorTest.Infrastructure.Repositories.CollaboratorRepositories
             _dbContext.Collaborator.Update(collaborator);
             await _dbContext.SaveChangesAsync();
         }
-
-        public async Task DeleteAsync(long id)
-        {
-            var collaborator = await _dbContext.Collaborator.FindAsync(id);
-
-            if (collaborator != null)
-            {
-                collaborator.IsEnabled = false;
-                _dbContext.Collaborator.Update(collaborator);
-                await _dbContext.SaveChangesAsync();
-            }
-        }
     }
 }
 

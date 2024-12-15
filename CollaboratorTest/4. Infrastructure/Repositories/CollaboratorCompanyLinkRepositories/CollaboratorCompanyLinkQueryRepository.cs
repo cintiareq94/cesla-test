@@ -36,6 +36,20 @@ namespace CollaboratorTest._4._Infrastructure.Repositories.CollaboratorCompanyLi
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<List<CollaboratorCompanyLink>?> GetByCollaboratorIdAsync(long collaboratorId)
+        {
+            return await _dbContext.CollaboratorCompanyLink
+                .Where(c => c.CollaboratorId == collaboratorId)
+                .ToListAsync();
+        }
+
+        public async Task<List<CollaboratorCompanyLink>?> GetByCompanyIdAsync(long companyId)
+        {
+            return await _dbContext.CollaboratorCompanyLink
+                .Where(c => c.CompanyId == companyId)
+                .ToListAsync();
+        }
+
         public async Task<CollaboratorCompanyLink?> GetByCollaboratorAndCompanyIdAsync(long collaboratorId, long companyId)
         {
             return await _dbContext.CollaboratorCompanyLink

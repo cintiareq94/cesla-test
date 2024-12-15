@@ -1,7 +1,6 @@
 ﻿using CollaboratorTest._2._Application.DTO.Responses;
 using CollaboratorTest._2._Application.Interfaces.Handlers.CollaboratorCompanyLinkHandler;
 using CollaboratorTest._3._Domain.Interfaces.CollaboratorCompanyLinkInterfaces;
-using CollaboratorTest.Application.DTO.Requests;
 
 namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandlers
 {
@@ -15,7 +14,7 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
             _queryRepository = queryRepository;
         }
 
-        public async Task<List<CollaboratorCompanyLinkResponse>> HandleGetAll(CollaboratorCompanyLinkRequestDto dto, long collaboratorId)
+        public async Task<List<CollaboratorCompanyLinkResponse>> HandleGetAll()
         {
             var collaboratorCompanyLinks = await _queryRepository.GetAllAsync();
 
@@ -39,7 +38,7 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
             return response;
         }
 
-        public async Task<List<CollaboratorCompanyLinkResponse>> HandleGetAllEnabled(CollaboratorCompanyLinkRequestDto dto, long collaboratorId)
+        public async Task<List<CollaboratorCompanyLinkResponse>> HandleGetAllEnabled()
         {
             var collaboratorCompanyLinks = await _queryRepository.GetAllEnabledAsync();
 
@@ -63,9 +62,12 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
             return response;
         }
 
-        public async Task<CollaboratorCompanyLinkResponse?> HandleGetByIdAsync(long id)
+        public async Task<CollaboratorCompanyLinkResponse?> HandleGetLinkById(long id)
         {
             var link = await _queryRepository.GetByIdAsync(id);
+
+            if (link == null)
+                throw new Exception($"CollaboratorCompanyLink with {id} not found");
 
             var response = new CollaboratorCompanyLinkResponse
             {
@@ -79,6 +81,59 @@ namespace CollaboratorTest._2._Application.Handlers.CollaboratorCompanyLinkHandl
 
             return response;
         }
+
+        public async Task<List<CollaboratorCompanyLinkResponse?>> HandleGetLinkByCollaboratorId(long id)
+        {
+            var links = await _queryRepository.GetByCollaboratorIdAsync(id);
+
+            if (links == null) throw new ArgumentNullException(nameof(links));
+
+            var response = new List<CollaboratorCompanyLinkResponse?>();
+
+            foreach (var link in links)
+            {
+                var newDto = new CollaboratorCompanyLinkResponse
+                {
+                    Id = link.Id,
+                    CollaboratorId = link.CollaboratorId,
+                    CompanyId = link.CompanyId,
+                    Role = link.Role,
+                    Department = link.Department,
+                    IsEnabled = link.IsEnabled
+                };
+
+                response.Add(newDto);
+            }
+
+            return response;
+        }
+
+        public async Task<List<CollaboratorCompanyLinkResponse>> HandleGetLinkByCompanyId(long id)
+        {
+            var links = await _queryRepository.GetByCompanyIdAsync(id);
+
+            if (links == null) throw new ArgumentNullException(nameof(links));
+
+            var response = new List<CollaboratorCompanyLinkResponse?>();
+
+            foreach (var link in links)
+            {
+                var newDto = new CollaboratorCompanyLinkResponse
+                {
+                    Id = link.Id,
+                    CollaboratorId = link.CollaboratorId,
+                    CompanyId = link.CompanyId,
+                    Role = link.Role,
+                    Department = link.Department,
+                    IsEnabled = link.IsEnabled
+                };
+
+                response.Add(newDto);
+            }
+
+            return response;
+        }
+
 
         public async Task<CollaboratorCompanyLinkResponse?> HandleGetByCollaboratorAndCompanyIdAsync(long collaboratorId, long companyId)
         {

@@ -9,8 +9,7 @@ namespace CollaboratorTest.Application.DTO.Requests
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Document { get; set; }
-
         [JsonIgnore]
-        public bool IsEnabled { get; set; } = true;
+        public DateTime CreationDate { get; set; }
     }
 }

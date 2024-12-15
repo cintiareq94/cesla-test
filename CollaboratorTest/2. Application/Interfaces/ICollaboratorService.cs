@@ -10,6 +10,5 @@ namespace CollaboratorTest.Application.Interfaces
         Task<List<CollaboratorCompanyLinkResponseDto>?> GetCollaboratorById(long id);
         Task<long> AddCollaborator(CollaboratorCompanyLinkRequestDto dto);
         Task UpdateCollaborator(long collaboratorId, CollaboratorCompanyLinkRequestDto dto);
-        Task DeleteCollaborator(long collaboratorId);
     }
 }

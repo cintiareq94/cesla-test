@@ -12,6 +12,6 @@ namespace CollaboratorTest.Application.DTO
         public string Document { get; set; }
         public string Role { get; set; }
         public string Department { get; set; }
-        public bool IsEnabled { get; set; } = true;
+        public DateTime CreationDate { get; set; }
     }
 }

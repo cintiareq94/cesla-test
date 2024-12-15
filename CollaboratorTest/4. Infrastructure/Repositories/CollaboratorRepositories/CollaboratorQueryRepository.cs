@@ -28,9 +28,7 @@ namespace CollaboratorTest.Infrastructure.Repositories.CollaboratorRepositories
         public async Task<List<Collaborator>> GetAllEnabledAsync()
         {
             return await _dbContext.Collaborator
-                .AsNoTracking()
-                .Where(c => c.IsEnabled)
-                .Include(c => c.CollaboratorCompanyLinks)
+                .Include(c => c.CollaboratorCompanyLinks.Where(cl => cl.IsEnabled))
                     .ThenInclude(c => c.Company)
                 .ToListAsync();
         }
@@ -42,6 +40,15 @@ namespace CollaboratorTest.Infrastructure.Repositories.CollaboratorRepositories
                 .Include(c => c.CollaboratorCompanyLinks)
                     .ThenInclude(c => c.Company)
                 .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<Collaborator?> GetByDocumentAsync(string document)
+        {
+            return await _dbContext.Collaborator
+                .Where(c => c.Document == document && c.CollaboratorCompanyLinks.Any(cl => cl.IsEnabled))
+                .Include(c => c.CollaboratorCompanyLinks.Where(cl => cl.IsEnabled))
+                    .ThenInclude(cl => cl.Company)
+                .FirstOrDefaultAsync();
         }
     }
 }
