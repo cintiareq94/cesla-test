@@ -1,22 +1,12 @@
 using CollaboratorTest.Infrastructure.Crosscuting.DependencyInjection;
 using CollaboratorTest.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCollaboratorDependencies();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")),
-        mysqlOptions => mysqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 2,
-            maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorNumbersToAdd: null
-        )
-    )
-);
+builder.Services.AddCollaboratorDependencies()
+                .AddDatabase(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

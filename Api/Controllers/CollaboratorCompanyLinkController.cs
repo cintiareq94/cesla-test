@@ -1,7 +1,7 @@
 ﻿using CollaboratorTest._2._Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CollaboratorTest._1._Api
+namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

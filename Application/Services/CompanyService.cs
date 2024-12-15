@@ -3,7 +3,6 @@ using CollaboratorTest._2._Application.Interfaces.Handlers.CompanyHandlers;
 using CollaboratorTest.Application.DTO.Requests;
 using CollaboratorTest.Application.DTO.Responses;
 using CollaboratorTest.Application.Interfaces;
-using System.Reflection.Metadata;
 
 namespace CollaboratorTest.Application.Services
 {
